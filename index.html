@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="JadedNailz: acrylic sets, gel and custom nail art in a private home studio in the Commerce City / Denver area. Book online.">
+<meta name="theme-color" content="#070808">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<title>JadedNailz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap">
+<style id="main-css">
+/* Layout: one narrow centered column, like a menu card held under low light; script for moments, serif caps for structure */
+:root{
+  --ink:#070808;          /* page ground */
+  --panel:#0e1513;        /* raised surfaces */
+  --jade:#1d3a31;         /* glow */
+  --jade-hi:#6fd3a8;      /* small accents, focus */
+  --silver:#e9ecea;       /* main text */
+  --mist:#9aa8a2;         /* secondary text */
+  --line:rgba(233,236,234,.14);
+  --script:'Pinyon Script', 'Snell Roundhand', cursive;
+  --serif:'Cormorant Garamond', Garamond, 'Times New Roman', serif;
+  --sans:'Jost', 'Helvetica Neue', Arial, sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:#070808;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+[hidden]{display:none!important}
+body{background:var(--ink);color:var(--silver);font:300 16px/1.65 var(--sans);padding-inline:16px;padding-block:0}
+.wrap{max-width:620px;margin:0 auto}
+h2{font:500 13px/1 var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--mist);margin:0 0 22px;text-align:center}
+.script{font-family:var(--script);font-weight:400}
+.neon{background:linear-gradient(180deg,#fff 0%,#dcdcdc 35%,#9a9a9a 50%,#f4f4f4 58%,#c4c4c4 80%,#fff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:1.5px rgba(240,240,240,.6);filter:drop-shadow(0 0 2px rgba(255,255,255,.9)) drop-shadow(0 0 10px rgba(255,255,255,.45)) drop-shadow(0 0 26px rgba(255,255,255,.2));padding:.15em .35em;margin:-.15em -.35em}
+
+.draft{max-width:620px;margin:14px auto 0;border:1px dashed rgba(111,211,168,.45);color:var(--jade-hi);font:400 13px/1.5 var(--sans);padding:10px 14px;border-radius:8px;text-align:center}
+
+/* hero */
+.hero{position:relative;text-align:center;padding-block:72px 64px}
+.hero::before{content:"";position:absolute;inset:-40px -16px 0;background:radial-gradient(circle at 50% 42%,var(--jade) 0%,rgba(16,22,20,.6) 38%,transparent 70%);z-index:-1}
+.hero .logo{font-size:clamp(96px,26vw,168px);line-height:1;display:inline-block}
+.hero .nailz{font:500 clamp(18px,4.6vw,26px)/1 var(--serif);letter-spacing:.42em;padding-left:.42em;margin-top:6px}
+.hero p{color:var(--mist);margin:26px auto 0;max-width:34ch;text-wrap:balance}
+.where{font:400 12px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--mist);margin-top:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:500 13px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--ink);background:var(--silver);border:0;border-radius:999px;padding:16px 30px;cursor:pointer;text-decoration:none;box-shadow:0 0 22px rgba(255,255,255,.18);transition:box-shadow .2s, transform .2s}
+.btn:hover{box-shadow:0 0 30px rgba(255,255,255,.35);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--silver);border:1px solid var(--line);box-shadow:none}
+.btn.small{padding:10px 16px;font-size:11px}
+:focus-visible{outline:2px solid var(--jade-hi);outline-offset:3px}
+.hero .btn{margin-top:32px}
+
+section{padding-block:56px;border-top:1px solid var(--line)}
+
+/* menu */
+.menu{display:grid;gap:0}
+.item{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item b{font:500 22px/1.2 var(--serif)}
+.item span{color:var(--mist);font-size:14px;grid-column:1}
+.item .price{font:500 22px/1.2 var(--serif);grid-row:1;grid-column:2;font-variant-numeric:tabular-nums}
+.sub{font:italic 400 26px/1 var(--serif);text-align:center;margin:36px 0 6px;color:var(--silver)}
+
+/* form */
+form{display:grid;gap:18px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:520px){.row{grid-template-columns:1fr}}
+label.f{display:grid;gap:7px;font:500 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--mist);min-width:0}
+input,select,textarea{font:300 16px/1.4 var(--sans);color:var(--silver);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 14px;width:100%;letter-spacing:0;text-transform:none}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--jade-hi);box-shadow:0 0 0 3px rgba(111,211,168,.15)}
+fieldset{border:0;padding:0;margin:0;display:grid;gap:10px}
+legend{font:500 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--mist);margin-bottom:10px;padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.chip span{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:14px;color:var(--silver);transition:.15s}
+.chip input:checked+span{background:var(--silver);color:var(--ink);border-color:var(--silver);font-weight:500}
+.chip input:focus-visible+span{outline:2px solid var(--jade-hi);outline-offset:2px}
+.agree{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--mist)}
+.agree input{width:18px;height:18px;margin-top:3px;flex:none;accent-color:var(--jade-hi)}
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding-top:16px}
+.total small{color:var(--mist);font-size:13px}
+.total strong{font:500 30px/1 var(--serif);font-variant-numeric:tabular-nums}
+.err{color:#f2a3a3;font-size:14px;margin:0}
+
+/* after submit */
+.done{display:grid;gap:22px}
+.done .script{font-size:clamp(44px,12vw,64px);text-align:center;line-height:1}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;display:grid;gap:14px}
+.step h3{margin:0;font:500 11px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--jade-hi)}
+.step p{margin:0;color:var(--mist);font-size:15px}
+.pay{display:grid;gap:10px}
+.payrow{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--line);padding-top:10px;flex-wrap:wrap}
+.payrow div{min-width:0}
+.payrow small{display:block;color:var(--mist);font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+.payrow b{font:500 20px/1.3 var(--serif);word-break:break-all}
+pre.msg{white-space:pre-wrap;word-break:break-word;margin:0;font:300 14px/1.55 var(--sans);background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:14px;color:var(--silver)}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.dmlink{color:var(--jade-hi);text-decoration:none;font-size:15px}
+.dmlink:hover{text-decoration:underline}
+.thanks{display:grid;gap:18px;justify-items:center;text-align:center;padding-block:24px}
+.thanks .script{font-size:clamp(56px,16vw,84px);line-height:1}
+.thanks p{margin:0;max-width:36ch;color:var(--mist);text-wrap:balance}
+.thanks p.summary{color:var(--silver);font:500 19px/1.4 var(--serif)}
+.btn.big{width:100%;padding:20px 30px;font-size:15px;letter-spacing:.32em}
+.btn.ghost.big{text-align:center;font-size:12px;letter-spacing:.2em;padding:18px 20px;border-color:rgba(233,236,234,.4)}
+.step p.summary{color:var(--silver);font:500 19px/1.4 var(--serif);border-top:1px solid var(--line);padding-top:12px}
+
+/* policy */
+.policies{display:grid;gap:0;margin:0;padding:0;list-style:none}
+.policies li{padding:16px 0;border-bottom:1px solid var(--line);display:grid;gap:4px}
+.policies li:last-child{border-bottom:0}
+.policies b{font:500 20px/1.25 var(--serif)}
+.policies span{color:var(--mist);font-size:15px}
+footer{text-align:center;padding-block:48px 64px;border-top:1px solid var(--line);color:var(--mist);font-size:13px}
+footer .script{font-size:44px;display:block;margin-bottom:6px}
+
+/* nav */
+nav.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(7,8,8,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-inline:-16px;padding-inline:16px}
+nav.top .in{max-width:620px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:12px}
+nav.top .brand{font-size:34px;line-height:1;text-decoration:none}
+nav.top .links{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+nav.top .links a{font:500 11px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--mist);text-decoration:none;padding:9px 9px;border-radius:999px}
+nav.top .links a[aria-current="page"]{color:var(--ink);background:var(--silver)}
+@media (max-width:420px){nav.top .brand{font-size:28px}nav.top .links a{padding:8px 7px;letter-spacing:.14em}}
+.page{padding-block:48px 24px}
+.page>h1{font:400 64px/1 var(--script);text-align:center;margin:0 0 8px}
+.page>.lede,#bookHead .lede{text-align:center;color:var(--mist);margin:0 auto 36px;max-width:40ch;text-wrap:balance}
+.note{color:var(--mist);font-size:14px;text-align:center;margin:14px auto 0;max-width:46ch}
+.home-links{display:grid;gap:10px;margin-top:8px;padding-bottom:40px}
+.home-links a{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border:1px solid var(--line);border-radius:14px;text-decoration:none;color:var(--silver);background:var(--panel);transition:border-color .2s}
+.home-links a:hover{border-color:rgba(233,236,234,.4)}
+.home-links b{font:500 22px/1.2 var(--serif)}
+.home-links span{color:var(--mist);font-size:14px}
+
+/* calendar */
+.cal{display:grid;gap:10px}
+.calhead{display:flex;justify-content:space-between;align-items:center}
+.calhead b{font:500 24px/1 var(--serif)}
+.calhead button{background:none;border:1px solid var(--line);color:var(--silver);border-radius:999px;width:38px;height:38px;cursor:pointer;font-size:16px}
+.calhead button:disabled{opacity:.25;cursor:default}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.dow{font:500 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--mist);text-align:center;padding-bottom:4px}
+.day{aspect-ratio:1;max-width:100%;border-radius:12px;border:1px solid transparent;background:none;color:rgba(233,236,234,.28);font:500 17px/1 var(--serif);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0}
+.day.open{color:var(--silver);border-color:var(--line);background:var(--panel);cursor:pointer}
+.day.open:hover{border-color:rgba(233,236,234,.45)}
+.day .dot{width:5px;height:5px;border-radius:50%;background:var(--jade-hi);box-shadow:0 0 6px var(--jade-hi)}
+.day.sel{background:var(--silver);color:var(--ink);border-color:var(--silver)}
+.day.sel .dot{background:var(--ink);box-shadow:none}
+.day.full{color:var(--mist)}
+.mslots{display:grid;gap:8px}
+.mslot{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:8px;flex-wrap:wrap}
+.mslot b{font:500 20px/1.2 var(--serif)}
+.mslot .tag{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--jade-hi)}
+.mslot .tag.booked{color:#f2b8a3}
+.mslot .acts{display:flex;gap:6px}
+.addrow{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.addrow label{flex:1}
+.publishbar{position:sticky;bottom:calc(12px + env(safe-area-inset-bottom,0px));margin-top:22px;display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:8px 8px 8px 20px;flex-wrap:nowrap}
+.publishbar span{min-width:0}
+.publishbar .btn{flex:none;padding:14px 20px}
+.publishbar span{color:var(--mist);font-size:14px}
+.btn:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+
+/* menu cards */
+.mgroups{display:grid;gap:22px}
+.mgroup{position:relative;border-radius:22px;padding:26px 22px 10px;background:radial-gradient(120% 90% at 50% 0%,rgba(29,58,49,.85) 0%,rgba(14,21,19,.95) 55%,#0b100e 100%);border:1px solid rgba(111,211,168,.28);box-shadow:0 0 0 1px rgba(255,255,255,.03) inset,0 0 34px rgba(111,211,168,.12),0 18px 40px rgba(0,0,0,.45)}
+.mgroup::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(160deg,rgba(255,255,255,.45),rgba(255,255,255,0) 30%,rgba(111,211,168,0) 70%,rgba(111,211,168,.5));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.mtitle{display:block;width:max-content;max-width:100%;margin:0 auto 6px;font-size:clamp(40px,11vw,52px);line-height:1.1;text-align:center}
+.mnote{margin:0 0 6px;text-align:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--jade-hi)}
+.mgroup .item{border-bottom-color:rgba(111,211,168,.14)}
+.mgroup .price{color:#fff;text-shadow:0 0 10px rgba(255,255,255,.55),0 0 22px rgba(111,211,168,.35)}
+.mgroup .item b{color:var(--silver)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<div id="site">
+<nav class="top"><div class="in">
+  <a class="brand script neon" href="#home">Jaded</a>
+  <div class="links">
+    <a href="#home" data-nav="home">Home</a>
+    <a href="#menu" data-nav="menu">Menu</a>
+    <a href="#book" data-nav="book">Book</a>
+    <a href="#policies" data-nav="policies">Policies</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+  <main id="home" class="view">
+    <header class="hero">
+      <div class="logo script neon">Jaded</div>
+      <div class="nailz">NAILZ</div>
+      <p>Acrylic sets, gel and custom nail art, done by appointment in a private home studio.</p>
+      <div class="where">Commerce City · Denver area</div>
+      <a class="btn" href="#book">Book your set</a>
+    </header>
+    <div class="home-links">
+      <a href="#menu"><div><b>Menu</b><br><span>Sets from $30 · priced by length</span></div><span>→</span></a>
+      <a href="#book"><div><b>Book</b><br><span>$15 deposit holds your spot</span></div><span>→</span></a>
+      <a href="#policies"><div><b>Policies</b><br><span>Read before you book</span></div><span>→</span></a>
+    </div>
+  </main>
+
+  <main id="menu" class="view page" hidden>
+    <h1 class="neon" style="display:block;width:max-content;margin-inline:auto">Menu</h1>
+    <p class="lede">Prices are starting points. Detailed or complex designs cost more.</p>
+    <div id="menuGroups" class="mgroups"></div>
+    <p class="note">Fills are for JadedNailz sets only. I don't work over another tech's work, so other sets need a foreign soak-off first.</p>
+    <div style="text-align:center;margin-top:32px"><a class="btn" href="#book">Book now</a></div>
+  </main>
+
+  <main id="book" class="view page" hidden>
+    <div id="bookHead">
+    <h1 class="neon script" style="display:block;width:max-content;margin-inline:auto;font-size:64px;line-height:1;margin-bottom:8px">Book</h1>
+    <p class="lede">Send a request, pay the $15 deposit, and Jade will confirm your time.</p>
+    </div>
+    <form id="bookForm" novalidate>
+      <label class="f" for="service">Service
+        <select id="service" required></select>
+      </label>
+      <label class="f" for="size" id="sizeWrap" hidden>Length
+        <select id="size"></select>
+      </label>
+      <fieldset id="addWrap">
+        <legend>Add-ons</legend>
+        <div class="chips" id="addons"></div>
+      </fieldset>
+      <label class="f" for="removal">Do you need a soak-off first?
+        <select id="removal">
+          <option value="">No, my nails are bare</option>
+          <option value="soak">Yes, a JadedNailz set (+$15)</option>
+          <option value="foreign">Yes, another tech's work (+$20)</option>
+        </select>
+      </label>
+      <fieldset>
+        <legend>Pick a day</legend>
+        <div class="cal" id="cal"></div>
+        <p class="note" id="calEmpty" hidden>No openings are posted yet. New dates go up on the Instagram story, so check back soon.</p>
+      </fieldset>
+      <fieldset id="timeWrap" hidden>
+        <legend id="timeLegend">Pick a time</legend>
+        <div class="chips" id="times"></div>
+      </fieldset>
+      <div class="row">
+        <label class="f" for="name">Your name
+          <input id="name" autocomplete="name" required>
+        </label>
+        <label class="f" for="phone">Phone number
+          <input id="phone" type="tel" autocomplete="tel" required>
+        </label>
+      </div>
+      <label class="f" for="ig">Instagram (optional)
+        <input id="ig" placeholder="@yourhandle">
+      </label>
+      <label class="f" for="notes">Inspo & details
+        <textarea id="notes" placeholder="Shape, color, the vibe you want. You can send inspo pics when you text or DM."></textarea>
+      </label>
+      <label class="agree" for="agree"><input type="checkbox" id="agree"> I've read the policies and understand the $15 deposit is non-refundable.</label>
+      <div class="total"><small>Starting total<br>Complex designs may cost more</small><strong id="total">$0</strong></div>
+      <p class="err" id="err" hidden></p>
+      <button class="btn" type="submit">Continue to deposit</button>
+    </form>
+
+    <div class="done" id="done" hidden>
+      <div class="script neon" style="justify-self:center">Almost booked</div>
+      <div class="step">
+        <h3>Step 1 · Send your $15 deposit</h3>
+        <p>Use any of these and put your name in the note. The deposit goes toward your total.</p>
+        <div class="pay">
+          <div class="payrow"><div><small>Cash App</small><b>$Jadepov</b></div><button class="btn ghost small" data-copy="$Jadepov">Copy</button></div>
+          <div class="payrow"><div><small>Venmo</small><b>@Jvdeee</b></div><button class="btn ghost small" data-copy="@Jvdeee">Copy</button></div>
+          <div class="payrow"><div><small>Apple Cash</small><b>(904) 738-9483</b></div><button class="btn ghost small" data-copy="9047389483">Copy</button></div>
+        </div>
+        <p>Pay the rest at your appointment with cash, Apple Cash, Venmo or Cash App.</p>
+      </div>
+      <div class="step">
+        <h3>Step 2 · Let Jade know</h3>
+        <p>Shoot Jade a DM letting her know you've sent the deposit for your appointment. Your spot is held once she confirms.</p>
+        <p class="summary" id="summary"></p>
+        <a class="btn ghost big" href="https://ig.me/m/jaded.nailzzz" target="_blank" rel="noopener">Message me on Instagram</a>
+        <label class="agree" for="dmSent"><input type="checkbox" id="dmSent"> I've sent Jade a DM about my deposit and appointment.</label>
+        <button class="btn big" type="button" id="confirmBtn" disabled>Confirm</button>
+      </div>
+      <button class="btn ghost" id="edit" type="button" style="justify-self:center">Edit request</button>
+    </div>
+
+    <div class="thanks" id="thanks" hidden>
+      <div class="script neon">Thank you</div>
+      <p>Thank you for booking with JadedNailz! Jade will be in touch about your appointment soon.</p>
+      <p class="summary" id="thanksSummary"></p>
+      <a class="btn" href="#home" id="thanksHome">Back to home</a>
+    </div>
+  </main>
+
+  <main id="policies" class="view page" hidden>
+    <h1 class="neon" style="display:block;width:max-content;margin-inline:auto">Policies</h1>
+    <p class="lede">Please read these before booking.</p>
+    <ul class="policies">
+      <li><b>Deposit</b><span>A $15 deposit is required to book and is non-refundable. It goes toward your total.</span></li>
+      <li><b>Payment</b><span>Cash, Apple Cash, Venmo and Cash App are accepted.</span></li>
+      <li><b>Late arrivals</b><span>Arriving 10 minutes or more late adds a $10 fee.</span></li>
+      <li><b>No-shows</b><span>If you miss an appointment without notice, 50% of that service is due before you can book again.</span></li>
+      <li><b>No guests</b><span>Please come alone. Guests and children can't come into the studio.</span></li>
+      <li><b>Other techs' work</b><span>I don't do fills or fixes on another tech's work. A foreign soak-off ($20) is needed before a new set.</span></li>
+      <li><b>Design pricing</b><span>Menu prices are starting points. Detailed or complex designs cost more.</span></li>
+      <li><b>Location</b><span>Private home studio in the Commerce City / Denver area. The address is sent once your deposit is confirmed.</span></li>
+      <li><b>Availability</b><span>New openings are posted every month on the Instagram story.</span></li>
+    </ul>
+  </main>
+
+  <footer>
+    <span class="script neon">Jaded</span>
+    Text (904) 738-9483 · Instagram @jaded.nailzzz
+  </footer>
+</div>
+</div>
+
+<script id="main-js">
+// ===== SETTINGS =====
+// Paste your Google Sheet's "Publish to web" CSV link between the quotes.
+const SHEET_CSV_URL='';
+// =====================
+let STATE={slots:{}};
+const SERVICES=[
+  {id:'set',group:'Acrylic full sets',name:'Acrylic full set',sizes:{Short:30,Medium:35,Long:45,XL:60,XXL:75}},
+  {id:'fill',group:'Acrylic fills',name:'Acrylic fill',sizes:{Short:25,Medium:30,Long:40,XL:55,XXL:65},desc:'JadedNailz sets only'},
+  {id:'gelmani',group:'Gel',name:'Simple gel manicure',price:30},
+  {id:'gelonly',group:'Gel',name:'Gel polish only',price:25},
+  {id:'toes',group:'Toes',name:'Acrylic toes',price:45,from:true,desc:'Price goes up with design'},
+  {id:'toefill',group:'Toes',name:'Acrylic toe fill',price:30},
+  {id:'soakonly',group:'Soak-offs',name:'Soak-off',price:15,desc:'JadedNailz set',noRemoval:true},
+  {id:'foreignonly',group:'Soak-offs',name:'Foreign soak-off',price:20,desc:"Another tech's work",noRemoval:true}
+];
+const ADDS=[
+  {id:'french',name:'French tip',price:5},
+  {id:'simple',name:'Simple nail art',price:5},
+  {id:'detailed',name:'Detailed nail art',price:10,from:true},
+  {id:'gems',name:'Gems & charms',price:5}
+];
+const REMOVAL={soak:{name:'Soak-off',price:15},foreign:{name:'Foreign soak-off',price:20}};
+const $=s=>document.querySelector(s);
+const money=n=>'$'+n;
+
+// menu
+const groups=[...new Set(SERVICES.map(s=>s.group))];
+let html='';
+groups.forEach(g=>{
+  const gd=SERVICES.find(s=>s.group===g&&s.sizes&&s.desc);html+=`<section class="mgroup"><h3 class="mtitle script neon">${g}</h3>${gd?`<p class="mnote">${gd.desc}</p>`:''}<div class="menu">`;
+  SERVICES.filter(s=>s.group===g).forEach(s=>{
+    if(s.sizes){Object.entries(s.sizes).forEach(([k,v])=>html+=`<div class="item"><b>${k}</b><div class="price">${money(v)}</div></div>`)}
+    else html+=`<div class="item"><b>${s.name}</b><div class="price">${s.from?'from ':''}${money(s.price)}</div>${s.desc?`<span>${s.desc}</span>`:''}</div>`;
+  });
+  html+='</div></section>';
+});
+html+='<section class="mgroup"><h3 class="mtitle script neon">Add-ons</h3><div class="menu">'+ADDS.map(a=>`<div class="item"><b>${a.name}</b><div class="price">+${money(a.price)}${a.from?'+':''}</div></div>`).join('')+'</div></section>';
+$('#menuGroups').innerHTML=html;
+
+// form
+$('#service').innerHTML='<option value="">Choose a service</option>'+groups.map(g=>`<optgroup label="${g}">`+SERVICES.filter(s=>s.group===g).map(s=>`<option value="${s.id}">${s.name}${s.sizes?'':' · '+(s.from?'from ':'')+money(s.price)}</option>`).join('')+'</optgroup>').join('');
+$('#addons').innerHTML=ADDS.map(a=>`<label class="chip"><input type="checkbox" id="add-${a.id}" value="${a.id}"><span>${a.name} +${money(a.price)}${a.from?'+':''}</span></label>`).join('');
+
+function svc(){return SERVICES.find(s=>s.id===$('#service').value)}
+$('#service').addEventListener('change',()=>{
+  const s=svc();
+  if(s&&s.sizes){$('#size').innerHTML=Object.entries(s.sizes).map(([k,v])=>`<option value="${k}">${k} · ${money(v)}</option>`).join('');$('#sizeWrap').hidden=false}
+  else $('#sizeWrap').hidden=true;
+  const rem=$('#removal').closest('label');rem.hidden=!!(s&&s.noRemoval);if(rem.hidden)$('#removal').value='';
+  const noAdds=s&&(s.noRemoval);$('#addWrap').hidden=!!noAdds;if(noAdds)ADDS.forEach(a=>$('#add-'+a.id).checked=false);
+  updateTotal();
+});
+function selected(){
+  const set=svc();
+  let base=0,label='';
+  if(set){if(set.sizes){const k=$('#size').value;base=set.sizes[k]||0;label=set.name+' ('+k+')'}else{base=set.price;label=set.name}}
+  const adds=ADDS.filter(a=>$('#add-'+a.id).checked);
+  const rem=REMOVAL[$('#removal').value];
+  return {set,label,adds,rem,total:base+adds.reduce((t,a)=>t+a.price,0)+(rem?rem.price:0)};
+}
+function updateTotal(){$('#total').textContent=money(selected().total)+(selected().set?'+':'')}
+$('#bookForm').addEventListener('input',updateTotal);
+updateTotal();
+
+$('#bookForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const {set,label,adds,rem,total}=selected();
+  const missing=[];
+  if(!set)missing.push('a service');
+  if(!pick.date||!pick.time)missing.push('a day and time');
+  if(!$('#name').value.trim())missing.push('your name');
+  if(!$('#phone').value.trim())missing.push('your phone number');
+  const err=$('#err');
+  if(missing.length){err.textContent='Please add '+missing.join(', ')+'.';err.hidden=false;return}
+  if(!$('#agree').checked){err.textContent='Please check the box to agree to the policies.';err.hidden=false;return}
+  err.hidden=true;
+  const lines=[
+    "Hi Jade! I'd like to book with JadedNailz.",
+    '',
+    'Name: '+$('#name').value.trim(),
+    'Phone: '+$('#phone').value.trim(),
+    $('#ig').value.trim()?'Instagram: '+$('#ig').value.trim():null,
+    'Service: '+label,
+    adds.length?'Add-ons: '+adds.map(a=>a.name).join(', '):null,
+    rem?'Removal: '+rem.name:null,
+    'Starting total: '+money(total),
+    'Appointment: '+fmtLong(pick.date)+' at '+fmtTime(pick.time),
+    $('#notes').value.trim()?'Details: '+$('#notes').value.trim():null,
+    '',
+    'I sent my $15 deposit and agree to the policies.'
+  ].filter(l=>l!==null);
+  $('#summary').textContent=fmtLong(pick.date)+' at '+fmtTime(pick.time)+' · '+label+(adds.length?' + '+adds.map(a=>a.name).join(', '):'')+' · '+money(total)+'+';
+  $('#bookForm').hidden=true;$('#done').hidden=false;
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+$('#dmSent').addEventListener('change',e=>{$('#confirmBtn').disabled=!e.target.checked});
+$('#confirmBtn').addEventListener('click',()=>{
+  if(!$('#dmSent').checked)return;
+  $('#thanksSummary').textContent=$('#summary').textContent;
+  $('#done').hidden=true;$('#thanks').hidden=false;$('#bookHead').hidden=true;
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+$('#thanksHome').addEventListener('click',()=>{$('#thanks').hidden=true;$('#bookHead').hidden=false;$('#bookForm').hidden=false;$('#dmSent').checked=false;$('#confirmBtn').disabled=true});
+$('#edit').addEventListener('click',()=>{$('#done').hidden=true;$('#bookForm').hidden=false});
+
+function copy(text,btn){
+  const ok=()=>{const t=btn.textContent;btn.textContent='Copied';setTimeout(()=>btn.textContent=t,1500)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok).catch(()=>select(btn))}else select(btn);
+}
+function select(btn){
+  const el=btn.closest('.payrow')?.querySelector('b')||$('#msg');
+  const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);
+  btn.textContent='Selected, copy it';
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copy(b.dataset.copy,b)});
+
+
+// ---------- calendar ----------
+const pad=n=>String(n).padStart(2,'0');
+const todayKey=(()=>{const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())})();
+const fmtTime=t=>{const [h,m]=t.split(':').map(Number);return ((h+11)%12+1)+':'+pad(m)+(h<12?' AM':' PM')};
+const fmtLong=k=>new Date(k+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+const OPEN_MONTH='2026-11';
+const FIRST_MONTH='2026-10';
+function openTimes(k){return (STATE.slots[k]||[]).filter(x=>!x.booked).map(x=>x.t).sort()}
+function monthsWithSlots(){const m=new Set([FIRST_MONTH,OPEN_MONTH]);Object.keys(STATE.slots).forEach(k=>{if(k>=todayKey&&(STATE.slots[k]||[]).length)m.add(k.slice(0,7))});return [...m].sort()}
+const pick={date:null,time:null};
+let viewMonth=null;
+function drawCal(el,ym,opts){
+  const [y,m]=ym.split('-').map(Number);
+  const first=new Date(y,m-1,1),days=new Date(y,m,0).getDate();
+  const months=opts.months,idx=months.indexOf(ym);
+  let h=`<div class="calhead"><button type="button" data-mv="-1" aria-label="Previous month" ${idx<=0?'disabled':''}>‹</button><b>${first.toLocaleDateString('en-US',{month:'long',year:'numeric'})}</b><button type="button" data-mv="1" aria-label="Next month" ${idx>=months.length-1?'disabled':''}>›</button></div><div class="grid">`;
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>h+=`<div class="dow">${d}</div>`);
+  for(let i=0;i<first.getDay();i++)h+='<div></div>';
+  for(let d=1;d<=days;d++){
+    const k=ym+'-'+pad(d);const st=opts.state(k);
+    h+=`<button type="button" class="day ${st.cls}${opts.sel===k?' sel':''}" data-day="${k}" ${st.click?'':'disabled'} aria-label="${fmtLong(k)}${st.label?', '+st.label:''}">${d}${st.dot?'<span class="dot"></span>':''}</button>`;
+  }
+  el.innerHTML=h+'</div>';
+}
+function renderClientCal(){
+  const months=monthsWithSlots();
+  if(!viewMonth||!months.includes(viewMonth))viewMonth=months.find(m=>Object.keys(STATE.slots).some(k=>k.startsWith(m)&&k>=todayKey&&openTimes(k).length))||OPEN_MONTH;
+  drawCal($('#cal'),viewMonth,{months,sel:pick.date,state:k=>{const n=k>=todayKey?openTimes(k).length:0;return n?{cls:'open',click:true,dot:true,label:n+' open'}:{cls:'',click:false}}});
+  const any=Object.keys(STATE.slots).some(k=>k>=todayKey&&openTimes(k).length);
+  $('#calEmpty').hidden=any;
+  if(pick.date&&!openTimes(pick.date).length){pick.date=null;pick.time=null}
+  const tw=$('#timeWrap');
+  if(!pick.date){tw.hidden=true;return}
+  tw.hidden=false;$('#timeLegend').textContent='Pick a time · '+fmtLong(pick.date);
+  $('#times').innerHTML=openTimes(pick.date).map(t=>`<label class="chip"><input type="radio" name="slot" value="${t}" ${pick.time===t?'checked':''}><span>${fmtTime(t)}</span></label>`).join('');
+}
+$('#cal').addEventListener('click',e=>{
+  const mv=e.target.closest('[data-mv]');if(mv){const ms=monthsWithSlots();viewMonth=ms[ms.indexOf(viewMonth)+Number(mv.dataset.mv)];renderClientCal();return}
+  const d=e.target.closest('[data-day]');if(d&&!d.disabled){pick.date=d.dataset.day;pick.time=null;renderClientCal()}
+});
+$('#times').addEventListener('change',e=>{if(e.target.name==='slot')pick.time=e.target.value});
+renderClientCal();
+
+// ---------- load openings from Google Sheet ----------
+function parseCSV(t){const rows=[];let r=[],f='',q=false;for(let i=0;i<t.length;i++){const c=t[i];if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}else f+=c}else if(c=='"')q=true;else if(c==','){r.push(f);f=''}else if(c=='\n'||c=='\r'){if(c=='\r'&&t[i+1]=='\n')i++;r.push(f);rows.push(r);r=[];f=''}else f+=c}if(f!==''||r.length){r.push(f);rows.push(r)}return rows}
+function normDate(v){v=(v||'').trim();let m;
+  if(m=v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/))return m[1]+'-'+pad(m[2])+'-'+pad(m[3]);
+  if(m=v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/)){const y=m[3].length===2?'20'+m[3]:m[3];return y+'-'+pad(m[1])+'-'+pad(m[2])}
+  const d=new Date(v);return isNaN(d)?null:d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function normTime(v){v=(v||'').trim().toLowerCase().replace(/\s+/g,'');const m=v.match(/^(\d{1,2})(?::(\d{2}))?(?::\d{2})?(am|pm|a|p)?$/);if(!m)return null;let h=+m[1];const mi=m[2]||'00';const ap=m[3];if(ap){if(ap[0]==='p'&&h<12)h+=12;if(ap[0]==='a'&&h===12)h=0}return h<24?pad(h)+':'+mi:null}
+async function loadSheet(){
+  const empty=$('#calEmpty');
+  if(!SHEET_CSV_URL){renderClientCal();return}
+  empty.textContent='Loading openings…';empty.hidden=false;
+  try{
+    const res=await fetch(SHEET_CSV_URL+(SHEET_CSV_URL.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'});
+    if(!res.ok)throw 0;
+    const rows=parseCSV(await res.text());
+    const hdr=rows.shift().map(h=>h.trim().toLowerCase());
+    const di=hdr.indexOf('date'),ti=hdr.indexOf('time'),si=hdr.indexOf('status');
+    const slots={};
+    rows.forEach(r=>{const d=normDate(r[di]),t=normTime(r[ti]);if(!d||!t)return;const st=(r[si]||'').trim().toLowerCase();(slots[d]=slots[d]||[]).push({t,booked:st.startsWith('book')||st==='taken'||st==='x'})});
+    STATE.slots=slots;viewMonth=null;
+    empty.textContent='No openings are posted yet. New dates go up on the Instagram story, so check back soon.';
+  }catch(e){empty.textContent='Openings couldn’t load right now. Refresh the page, or text (904) 738-9483 to book.'}
+  renderClientCal();
+}
+loadSheet();
+
+// pages
+const VIEWS=['home','menu','book','policies'];
+function show(){
+  const id=VIEWS.includes(location.hash.slice(1))?location.hash.slice(1):'home';
+  VIEWS.forEach(v=>document.getElementById(v).hidden=v!==id);
+  document.querySelectorAll('[data-nav]').forEach(a=>a.toggleAttribute('aria-current',a.dataset.nav===id)||a.dataset.nav===id&&a.setAttribute('aria-current','page'));
+  document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',show);show();
+</script>
+</body>
+</html>
