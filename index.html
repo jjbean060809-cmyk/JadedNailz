@@ -323,7 +323,9 @@ nav.top .links a[aria-current="page"]{color:var(--ink);background:var(--silver)}
 <script id="main-js">
 // ===== SETTINGS =====
 // Paste your Google Sheet's "Publish to web" CSV link between the quotes.
-const SHEET_CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vR1E_YvrYtii960P57bwnDlBgdmFg98H2Dz2iXXhaMV9fHoyhgBQJVK7gxhq5Kbpz84FoHKSqGWbQtP/pub?output=csv';
+const SHEET_CSV_URL='https://docs.google.com/spreadsheets/d/1J2-ViYBkv3Oz8u0bcsCxkfgMuAxy9TnAl4pVzsPeIV8/gviz/tq?tqx=out:csv';
+// Backup link (slower to update) used only if the one above fails
+const SHEET_CSV_BACKUP='https://docs.google.com/spreadsheets/d/e/2PACX-1vR1E_YvrYtii960P57bwnDlBgdmFg98H2Dz2iXXhaMV9fHoyhgBQJVK7gxhq5Kbpz84FoHKSqGWbQtP/pub?output=csv';
 // =====================
 let STATE={slots:{}};
 const SERVICES=[
@@ -494,9 +496,13 @@ async function loadSheet(){
   if(!SHEET_CSV_URL){renderClientCal();return}
   empty.textContent='Loading openings…';empty.hidden=false;
   try{
-    const res=await fetch(SHEET_CSV_URL+(SHEET_CSV_URL.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'});
-    if(!res.ok)throw 0;
-    const rows=parseCSV(await res.text());
+    let text=null;
+    for(const u of [SHEET_CSV_URL,SHEET_CSV_BACKUP]){
+      if(!u)continue;
+      try{const res=await fetch(u+(u.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'});if(res.ok){const t=await res.text();if(/date/i.test(t.split('\n')[0])){text=t;break}}}catch(e){}
+    }
+    if(text===null)throw 0;
+    const rows=parseCSV(text);
     const hdr=rows.shift().map(h=>h.trim().toLowerCase());
     const di=hdr.indexOf('date'),ti=hdr.indexOf('time'),si=hdr.indexOf('status');
     const slots={};
