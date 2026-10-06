@@ -423,15 +423,20 @@ $('#bookForm').addEventListener('submit',async e=>{
   const payload={action:'book',date:pick.date,time:pick.time,name:$('#name').value.trim(),phone:$('#phone').value.trim(),ig:$('#ig').value.trim(),
     service:label,addons:adds.map(a=>a.name).join(', '),removal:rem?rem.name:'',total:money(total)+'+',notes:$('#notes').value.trim()};
   payload.id=(Date.now().toString(36)+Math.random().toString(36).slice(2,6)).slice(-8);
-  let res=null;
-  const ctrl=new AbortController();const tm=setTimeout(()=>ctrl.abort(),25000);
-  try{const r=await fetch(BOOKING_URL,{method:'POST',body:JSON.stringify(payload),signal:ctrl.signal});res=await r.json()}catch(x){}
-  clearTimeout(tm);
-  if(!res||!res.ok&&!res.reason){
-    // The booking may have saved even if the reply got lost. Check whether the time is now held.
-    try{const r=await fetch(BOOKING_URL+'?t='+Date.now(),{cache:'no-store'});const j=await r.json();
-      const s2=j.slots.find(x=>x.date===pick.date&&x.time===pick.time);if(s2&&!s2.open)res={ok:true,id:payload.id}}catch(x){}
-  }
+  // Send the booking, and at the same time watch the schedule: whichever confirms first wins.
+  const post=fetch(BOOKING_URL,{method:'POST',body:JSON.stringify(payload)}).then(r=>r.json()).catch(()=>null);
+  const watch=new Promise(resolve=>{
+    let tries=0;
+    const tick=async()=>{
+      tries++;
+      try{const r=await fetch(BOOKING_URL+'?id='+payload.id+'&t='+Date.now(),{cache:'no-store'});const j=await r.json();
+        if(j&&j.found){resolve({ok:true,id:payload.id,seen:true});return}}catch(x){}
+      if(tries<12)setTimeout(tick,1500);else resolve(null);
+    };
+    setTimeout(tick,1500);
+  });
+  let res=await Promise.race([post.then(r=>r||new Promise(()=>{})),watch]);
+  if(res&&res.seen){const r2=await Promise.race([post,new Promise(z=>setTimeout(()=>z(null),300))]);if(r2&&r2.ok===false)res=r2}
   btn.disabled=false;btn.textContent='Book my appointment';
   if(!res||!res.ok){
     if(res&&res.reason==='taken'){err.textContent='Someone just grabbed that time. Please pick another one.';pick.time=null;loadSheet()}
@@ -447,9 +452,7 @@ $('#bookForm').addEventListener('submit',async e=>{
 $('#paidBox').addEventListener('change',e=>{$('#confirmBtn').disabled=!e.target.checked});
 $('#confirmBtn').addEventListener('click',async()=>{
   if(!$('#paidBox').checked)return;
-  const b=$('#confirmBtn');b.disabled=true;b.textContent='Sending…';
-  try{await fetch(BOOKING_URL,{method:'POST',body:JSON.stringify({action:'paid',id:bookingId})})}catch(x){}
-  b.textContent='Confirm';
+  try{fetch(BOOKING_URL,{method:'POST',body:JSON.stringify({action:'paid',id:bookingId}),keepalive:true}).catch(()=>{})}catch(x){}
   $('#thanksSummary').textContent=$('#summary').textContent;
   $('#done').hidden=true;$('#thanks').hidden=false;$('#bookHead').hidden=true;
   window.scrollTo({top:0,behavior:'smooth'});
