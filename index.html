@@ -430,10 +430,11 @@ $('#bookForm').addEventListener('submit',async e=>{
     const tick=async()=>{
       tries++;
       try{const r=await fetch(BOOKING_URL+'?id='+payload.id+'&t='+Date.now(),{cache:'no-store'});const j=await r.json();
-        if(j&&j.found){resolve({ok:true,id:payload.id,seen:true});return}}catch(x){}
-      if(tries<12)setTimeout(tick,1500);else resolve(null);
+        if(j&&j.found){resolve({ok:true,id:payload.id,seen:true});return}
+        if(j&&j.slots){const s2=j.slots.find(x=>x.date===pick.date&&x.time===pick.time);if(s2&&!s2.open){resolve({ok:true,id:payload.id,seen:true});return}}}catch(x){}
+      if(tries<20)setTimeout(tick,900);else resolve(null);
     };
-    setTimeout(tick,1500);
+    setTimeout(tick,700);
   });
   let res=await Promise.race([post.then(r=>r||new Promise(()=>{})),watch]);
   if(res&&res.seen){const r2=await Promise.race([post,new Promise(z=>setTimeout(()=>z(null),300))]);if(r2&&r2.ok===false)res=r2}
@@ -557,6 +558,7 @@ function show(){
   document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
   window.scrollTo(0,0);
 }
+if(location.hash&&location.hash!=='#home'){try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}
 window.addEventListener('hashchange',show);show();
 </script>
 </body>
