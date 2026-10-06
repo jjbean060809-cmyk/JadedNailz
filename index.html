@@ -8,6 +8,8 @@
 <link rel="icon" type="image/png" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
 <title>JadedNailz</title>
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap">
@@ -525,7 +527,10 @@ function normTime(v){v=(v||'').trim().toLowerCase().replace(/\s+/g,'');const m=v
 async function loadSheet(){
   const empty=$('#calEmpty');
   if(!SHEET_CSV_URL&&!BOOKING_URL){renderClientCal();return}
-  empty.textContent='Loading openings…';empty.hidden=false;
+  // Show the last openings this phone saw right away, then refresh from the sheet
+  let shown=false;
+  try{const c=JSON.parse(localStorage.getItem('jn-slots')||'null');if(c&&Date.now()-c.at<6*3600e3&&c.slots){STATE.slots=c.slots;viewMonth=null;renderClientCal();shown=true}}catch(e){}
+  if(!shown){empty.textContent='Loading openings…';empty.hidden=false}
   try{
     let slots=null;
     if(BOOKING_URL){try{const r=await fetch(BOOKING_URL+'?t='+Date.now(),{cache:'no-store'});const j=await r.json();if(j&&j.ok){slots={};j.slots.forEach(x=>{(slots[x.date]=slots[x.date]||[]).push({t:x.time,booked:!x.open})})}}catch(x){}}
@@ -542,9 +547,10 @@ async function loadSheet(){
     const di=hdr.indexOf('date'),ti=hdr.indexOf('time'),si=hdr.indexOf('status');
     rows.forEach(r=>{const d=normDate(r[di]),t=normTime(r[ti]);if(!d||!t)return;const st=(r[si]||'').trim().toLowerCase();(slots[d]=slots[d]||[]).push({t,booked:!(st===''||st==='open')})});
     }
-    STATE.slots=slots;viewMonth=null;
+    STATE.slots=slots;if(!shown)viewMonth=null;
+    try{localStorage.setItem('jn-slots',JSON.stringify({at:Date.now(),slots}))}catch(e){}
     empty.textContent='No openings are posted yet. New dates go up on the Instagram story, so check back soon.';
-  }catch(e){empty.textContent='Openings couldn’t load right now. Refresh the page, or text (904) 738-9483 to book.'}
+  }catch(e){if(shown){renderClientCal();return}empty.textContent='Openings couldn’t load right now. Refresh the page, or text (904) 738-9483 to book.'}
   renderClientCal();
 }
 loadSheet();
