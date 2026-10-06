@@ -239,7 +239,7 @@ nav.top .links a[aria-current="page"]{color:var(--ink);background:var(--silver)}
   <main id="book" class="view page" hidden>
     <div id="bookHead">
     <h1 class="neon script" style="display:block;width:max-content;margin-inline:auto;font-size:64px;line-height:1;margin-bottom:8px">Book</h1>
-    <p class="lede">Send a request, pay the $15 deposit, and Jade will confirm your time.</p>
+    <p class="lede">Pick your time, book it, then send your $15 deposit to lock it in.</p>
     </div>
     <form id="bookForm" novalidate>
       <label class="f" for="service">Service
@@ -285,35 +285,30 @@ nav.top .links a[aria-current="page"]{color:var(--ink);background:var(--silver)}
       <label class="agree" for="agree"><input type="checkbox" id="agree"> I've read the policies and understand the $15 deposit is non-refundable.</label>
       <div class="total"><small>Starting total<br>Complex designs may cost more</small><strong id="total">$0</strong></div>
       <p class="err" id="err" hidden></p>
-      <button class="btn" type="submit">Continue to deposit</button>
+      <button class="btn" type="submit" id="bookBtn">Book my appointment</button>
     </form>
 
     <div class="done" id="done" hidden>
-      <div class="script neon" style="justify-self:center">Almost booked</div>
+      <div class="script neon" style="justify-self:center">Spot held</div>
+      <p class="summary" id="summary" style="text-align:center;color:var(--silver);font:500 21px/1.4 var(--serif);margin:0"></p>
       <div class="step">
-        <h3>Step 1 · Send your $15 deposit</h3>
-        <p>Use any of these and put your name in the note. The deposit goes toward your total.</p>
+        <h3>Send your $15 deposit to lock it in</h3>
+        <p>Your time is held for you now. Send the deposit within 24 hours with your name in the note. It goes toward your total.</p>
         <div class="pay">
           <div class="payrow"><div><small>Cash App</small><b>$Jadepov</b></div><button class="btn ghost small" data-copy="$Jadepov">Copy</button></div>
           <div class="payrow"><div><small>Venmo</small><b>@Jvdeee</b></div><button class="btn ghost small" data-copy="@Jvdeee">Copy</button></div>
           <div class="payrow"><div><small>Apple Cash</small><b>(904) 738-9483</b></div><button class="btn ghost small" data-copy="9047389483">Copy</button></div>
         </div>
         <p>Pay the rest at your appointment with cash, Apple Cash, Venmo or Cash App.</p>
-      </div>
-      <div class="step">
-        <h3>Step 2 · Let Jade know</h3>
-        <p>Shoot Jade a DM letting her know you've sent the deposit for your appointment. Your spot is held once she confirms.</p>
-        <p class="summary" id="summary"></p>
-        <a class="btn ghost big" href="https://ig.me/m/jaded.nailzzz" target="_blank" rel="noopener">Message me on Instagram</a>
-        <label class="agree" for="dmSent"><input type="checkbox" id="dmSent"> I've sent Jade a DM about my deposit and appointment.</label>
+        <label class="agree" for="paidBox"><input type="checkbox" id="paidBox"> I've sent my $15 deposit.</label>
         <button class="btn big" type="button" id="confirmBtn" disabled>Confirm</button>
       </div>
-      <button class="btn ghost" id="edit" type="button" style="justify-self:center">Edit request</button>
+      <p class="note" style="margin-top:0">Questions? <a class="dmlink" href="https://ig.me/m/jaded.nailzzz" target="_blank" rel="noopener">Message me on Instagram</a></p>
     </div>
 
     <div class="thanks" id="thanks" hidden>
       <div class="script neon">Thank you</div>
-      <p>Thank you for booking with JadedNailz! Jade will be in touch about your appointment soon.</p>
+      <p>Thank you for booking with JadedNailz! Jade will confirm your appointment and send the address once your deposit comes through.</p>
       <p class="summary" id="thanksSummary"></p>
       <a class="btn" href="#home" id="thanksHome">Back to home</a>
     </div>
@@ -323,7 +318,7 @@ nav.top .links a[aria-current="page"]{color:var(--ink);background:var(--silver)}
     <h1 class="neon" style="display:block;width:max-content;margin-inline:auto">Policies</h1>
     <p class="lede">Please read these before booking.</p>
     <ul class="policies">
-      <li><b>Deposit</b><span>A $15 deposit is required to book and is non-refundable. It goes toward your total.</span></li>
+      <li><b>Deposit</b><span>A $15 deposit is required to book and is non-refundable. It goes toward your total. Your time is held for 24 hours; if the deposit isn't received, it reopens.</span></li>
       <li><b>Payment</b><span>Cash, Apple Cash, Venmo and Cash App are accepted.</span></li>
       <li><b>Late arrivals</b><span>Arriving 10 minutes or more late adds a $10 fee.</span></li>
       <li><b>No-shows</b><span>If you miss an appointment without notice, 50% of that service is due before you can book again.</span></li>
@@ -345,6 +340,8 @@ nav.top .links a[aria-current="page"]{color:var(--ink);background:var(--silver)}
 <script id="main-js">
 // ===== SETTINGS =====
 // Paste your Google Sheet's "Publish to web" CSV link between the quotes.
+// Booking script link (from Apps Script → Deploy → Web app)
+const BOOKING_URL='https://script.google.com/macros/s/AKfycbxmHVmqVnjA_Y0Ob12YFiFpSrC0HTvETfY5DzlujWp84zMUkEhoFT1ND2m0eZXWnOtV/exec';
 const SHEET_CSV_URL='https://docs.google.com/spreadsheets/d/1J2-ViYBkv3Oz8u0bcsCxkfgMuAxy9TnAl4pVzsPeIV8/gviz/tq?tqx=out:csv';
 // Backup link (slower to update) used only if the one above fails
 const SHEET_CSV_BACKUP='https://docs.google.com/spreadsheets/d/e/2PACX-1vR1E_YvrYtii960P57bwnDlBgdmFg98H2Dz2iXXhaMV9fHoyhgBQJVK7gxhq5Kbpz84FoHKSqGWbQtP/pub?output=csv';
@@ -409,7 +406,8 @@ function updateTotal(){$('#total').textContent=money(selected().total)+(selected
 $('#bookForm').addEventListener('input',updateTotal);
 updateTotal();
 
-$('#bookForm').addEventListener('submit',e=>{
+let bookingId=null;
+$('#bookForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const {set,label,adds,rem,total}=selected();
   const missing=[];
@@ -421,35 +419,34 @@ $('#bookForm').addEventListener('submit',e=>{
   if(missing.length){err.textContent='Please add '+missing.join(', ')+'.';err.hidden=false;return}
   if(!$('#agree').checked){err.textContent='Please check the box to agree to the policies.';err.hidden=false;return}
   err.hidden=true;
-  const lines=[
-    "Hi Jade! I'd like to book with JadedNailz.",
-    '',
-    'Name: '+$('#name').value.trim(),
-    'Phone: '+$('#phone').value.trim(),
-    $('#ig').value.trim()?'Instagram: '+$('#ig').value.trim():null,
-    'Service: '+label,
-    adds.length?'Add-ons: '+adds.map(a=>a.name).join(', '):null,
-    rem?'Removal: '+rem.name:null,
-    'Starting total: '+money(total),
-    'Appointment: '+fmtLong(pick.date)+' at '+fmtTime(pick.time),
-    $('#notes').value.trim()?'Details: '+$('#notes').value.trim():null,
-    '',
-    'I sent my $15 deposit and agree to the policies.'
-  ].filter(l=>l!==null);
+  const btn=$('#bookBtn');btn.disabled=true;btn.textContent='Holding your spot…';
+  const payload={action:'book',date:pick.date,time:pick.time,name:$('#name').value.trim(),phone:$('#phone').value.trim(),ig:$('#ig').value.trim(),
+    service:label,addons:adds.map(a=>a.name).join(', '),removal:rem?rem.name:'',total:money(total)+'+',notes:$('#notes').value.trim()};
+  let res=null;
+  try{const r=await fetch(BOOKING_URL,{method:'POST',body:JSON.stringify(payload)});res=await r.json()}catch(x){}
+  btn.disabled=false;btn.textContent='Book my appointment';
+  if(!res||!res.ok){
+    if(res&&res.reason==='taken'){err.textContent='Someone just grabbed that time. Please pick another one.';pick.time=null;loadSheet()}
+    else err.textContent='Booking couldn’t go through right now. Try again in a minute, or DM @jaded.nailzzz on Instagram.';
+    err.hidden=false;return;
+  }
+  bookingId=res.id;
+  const slot=(STATE.slots[pick.date]||[]).find(x=>x.t===pick.time);if(slot)slot.booked=true;
   $('#summary').textContent=fmtLong(pick.date)+' at '+fmtTime(pick.time)+' · '+label+(adds.length?' + '+adds.map(a=>a.name).join(', '):'')+' · '+money(total)+'+';
-  $('#bookForm').hidden=true;$('#done').hidden=false;
+  $('#bookForm').hidden=true;$('#done').hidden=false;$('#bookHead').hidden=true;
   window.scrollTo({top:0,behavior:'smooth'});
 });
-
-$('#dmSent').addEventListener('change',e=>{$('#confirmBtn').disabled=!e.target.checked});
-$('#confirmBtn').addEventListener('click',()=>{
-  if(!$('#dmSent').checked)return;
+$('#paidBox').addEventListener('change',e=>{$('#confirmBtn').disabled=!e.target.checked});
+$('#confirmBtn').addEventListener('click',async()=>{
+  if(!$('#paidBox').checked)return;
+  const b=$('#confirmBtn');b.disabled=true;b.textContent='Sending…';
+  try{await fetch(BOOKING_URL,{method:'POST',body:JSON.stringify({action:'paid',id:bookingId})})}catch(x){}
+  b.textContent='Confirm';
   $('#thanksSummary').textContent=$('#summary').textContent;
   $('#done').hidden=true;$('#thanks').hidden=false;$('#bookHead').hidden=true;
   window.scrollTo({top:0,behavior:'smooth'});
 });
-$('#thanksHome').addEventListener('click',()=>{$('#thanks').hidden=true;$('#bookHead').hidden=false;$('#bookForm').hidden=false;$('#dmSent').checked=false;$('#confirmBtn').disabled=true});
-$('#edit').addEventListener('click',()=>{$('#done').hidden=true;$('#bookForm').hidden=false});
+$('#thanksHome').addEventListener('click',()=>{$('#thanks').hidden=true;$('#bookHead').hidden=false;$('#bookForm').reset();pick.date=null;pick.time=null;updateTotal();renderClientCal();$('#bookForm').hidden=false;$('#paidBox').checked=false;$('#confirmBtn').disabled=true});
 
 function copy(text,btn){
   const ok=()=>{const t=btn.textContent;btn.textContent='Copied';setTimeout(()=>btn.textContent=t,1500)};
@@ -515,20 +512,24 @@ function normDate(v){v=(v||'').trim();let m;
 function normTime(v){v=(v||'').trim().toLowerCase().replace(/\s+/g,'');const m=v.match(/^(\d{1,2})(?::(\d{2}))?(?::\d{2})?(am|pm|a|p)?$/);if(!m)return null;let h=+m[1];const mi=m[2]||'00';const ap=m[3];if(ap){if(ap[0]==='p'&&h<12)h+=12;if(ap[0]==='a'&&h===12)h=0}return h<24?pad(h)+':'+mi:null}
 async function loadSheet(){
   const empty=$('#calEmpty');
-  if(!SHEET_CSV_URL){renderClientCal();return}
+  if(!SHEET_CSV_URL&&!BOOKING_URL){renderClientCal();return}
   empty.textContent='Loading openings…';empty.hidden=false;
   try{
+    let slots=null;
+    if(BOOKING_URL){try{const r=await fetch(BOOKING_URL+'?t='+Date.now(),{cache:'no-store'});const j=await r.json();if(j&&j.ok){slots={};j.slots.forEach(x=>{(slots[x.date]=slots[x.date]||[]).push({t:x.time,booked:!x.open})})}}catch(x){}}
     let text=null;
-    for(const u of [SHEET_CSV_URL,SHEET_CSV_BACKUP]){
+    if(!slots)for(const u of [SHEET_CSV_URL,SHEET_CSV_BACKUP]){
       if(!u)continue;
       try{const res=await fetch(u+(u.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'});if(res.ok){const t=await res.text();if(/date/i.test(t.split('\n')[0])){text=t;break}}}catch(e){}
     }
+    if(!slots){
     if(text===null)throw 0;
     const rows=parseCSV(text);
+    slots={};
     const hdr=rows.shift().map(h=>h.trim().toLowerCase());
     const di=hdr.indexOf('date'),ti=hdr.indexOf('time'),si=hdr.indexOf('status');
-    const slots={};
-    rows.forEach(r=>{const d=normDate(r[di]),t=normTime(r[ti]);if(!d||!t)return;const st=(r[si]||'').trim().toLowerCase();(slots[d]=slots[d]||[]).push({t,booked:st.startsWith('book')||st==='taken'||st==='x'})});
+    rows.forEach(r=>{const d=normDate(r[di]),t=normTime(r[ti]);if(!d||!t)return;const st=(r[si]||'').trim().toLowerCase();(slots[d]=slots[d]||[]).push({t,booked:!(st===''||st==='open')})});
+    }
     STATE.slots=slots;viewMonth=null;
     empty.textContent='No openings are posted yet. New dates go up on the Instagram story, so check back soon.';
   }catch(e){empty.textContent='Openings couldn’t load right now. Refresh the page, or text (904) 738-9483 to book.'}
