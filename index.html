@@ -419,11 +419,19 @@ $('#bookForm').addEventListener('submit',async e=>{
   if(missing.length){err.textContent='Please add '+missing.join(', ')+'.';err.hidden=false;return}
   if(!$('#agree').checked){err.textContent='Please check the box to agree to the policies.';err.hidden=false;return}
   err.hidden=true;
-  const btn=$('#bookBtn');btn.disabled=true;btn.textContent='Holding your spot…';
+  const btn=$('#bookBtn');btn.disabled=true;btn.textContent='Holding your spot… (a few seconds)';
   const payload={action:'book',date:pick.date,time:pick.time,name:$('#name').value.trim(),phone:$('#phone').value.trim(),ig:$('#ig').value.trim(),
     service:label,addons:adds.map(a=>a.name).join(', '),removal:rem?rem.name:'',total:money(total)+'+',notes:$('#notes').value.trim()};
+  payload.id=(Date.now().toString(36)+Math.random().toString(36).slice(2,6)).slice(-8);
   let res=null;
-  try{const r=await fetch(BOOKING_URL,{method:'POST',body:JSON.stringify(payload)});res=await r.json()}catch(x){}
+  const ctrl=new AbortController();const tm=setTimeout(()=>ctrl.abort(),25000);
+  try{const r=await fetch(BOOKING_URL,{method:'POST',body:JSON.stringify(payload),signal:ctrl.signal});res=await r.json()}catch(x){}
+  clearTimeout(tm);
+  if(!res||!res.ok&&!res.reason){
+    // The booking may have saved even if the reply got lost. Check whether the time is now held.
+    try{const r=await fetch(BOOKING_URL+'?t='+Date.now(),{cache:'no-store'});const j=await r.json();
+      const s2=j.slots.find(x=>x.date===pick.date&&x.time===pick.time);if(s2&&!s2.open)res={ok:true,id:payload.id}}catch(x){}
+  }
   btn.disabled=false;btn.textContent='Book my appointment';
   if(!res||!res.ok){
     if(res&&res.reason==='taken'){err.textContent='Someone just grabbed that time. Please pick another one.';pick.time=null;loadSheet()}
