@@ -174,11 +174,35 @@ nav.top .links a[aria-current="page"]{color:var(--ink);background:var(--silver)}
 .mgroup .item{border-bottom-color:rgba(111,211,168,.14)}
 .mgroup .price{color:#fff;text-shadow:0 0 10px rgba(255,255,255,.55),0 0 22px rgba(111,211,168,.35)}
 .mgroup .item b{color:var(--silver)}
+
+/* intro splash */
+#intro{position:fixed;inset:0;z-index:100;background:radial-gradient(60% 45% at 50% 46%,#1d3a31 0%,#0a110f 55%,#070808 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .7s ease,visibility .7s;cursor:pointer}
+#intro.out{opacity:0;visibility:hidden}
+#intro .il{font-size:clamp(110px,30vw,190px);line-height:1;opacity:0;animation:neonOn 1.3s ease-out .25s forwards}
+#intro .in2{font:500 clamp(18px,5vw,26px)/1 var(--serif);letter-spacing:.42em;padding-left:.42em;margin-top:10px;color:var(--silver);opacity:0;animation:fadeUp .7s ease-out 1.25s forwards}
+#intro .bar{width:120px;height:1px;margin-top:26px;background:linear-gradient(90deg,transparent,var(--jade-hi),transparent);transform:scaleX(0);animation:grow .9s ease-out 1.4s forwards;box-shadow:0 0 10px var(--jade-hi)}
+@keyframes neonOn{0%{opacity:0}10%{opacity:.8}14%{opacity:.1}22%{opacity:.9}26%{opacity:.25}34%{opacity:1}60%{opacity:.85}100%{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes grow{to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){#intro .il,#intro .in2,#intro .bar{animation:none;opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
 </head>
 <body>
+<div id="intro" aria-hidden="true"><div class="il script neon">Jaded</div><div class="in2">NAILZ</div><div class="bar"></div></div>
+<script>
+(function(){
+  var el=document.getElementById('intro');var seen=false;
+  try{seen=sessionStorage.getItem('jn-intro')==='1'}catch(e){}
+  if(seen){el.remove();return}
+  try{sessionStorage.setItem('jn-intro','1')}catch(e){}
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function hide(){if(!el.parentNode)return;el.classList.add('out');setTimeout(function(){el.remove()},800)}
+  el.addEventListener('click',hide);
+  setTimeout(hide,reduce?600:2600);
+})();
+</script>
 <div id="site">
 <nav class="top"><div class="in">
   <a class="brand script neon" href="#home">Jaded</a>
